@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='author' content='Bryan Clark'>
+
+    <title>loopback-example-email-templates</title>
+    <link href='./public/css/style.css' rel='stylesheet'>
+    <style>
+    iframe {
+      margin: 0;
+      width: 100%;
+      min-height: 300px;
+      border: 1px solid #aaa;
+    }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <h1>loopback-example-email-templates</h1>
+
+      <div class="jumbotron">
+      <p>
+        This page uses the styles you've set in your <a href='public/less/style.less'>style.less</a> file.
+        You'll need to be running <em>gulp watch</em> for the CSS to update automatically.
+      </p>
+
+      <p> The changes you make in the style file will be reflected in the email which is iframed below</p>
+      </div>
+
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="sendFrom" class="col-sm-2 control-label">From</label>
+          <div class="col-sm-6">
+            <input type="email" class="form-control" id="sendFrom" placeholder="From email" value='from@example.com'>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sendTo" class="col-sm-2 control-label">To</label>
+          <div class="col-sm-6">
+            <input type="email" class="form-control" id="sendTo" placeholder="To email" value='to@example.com'>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sendSubject" class="col-sm-2 control-label">Subject</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="sendSubject" placeholder="Subject" value='Please Verify Your Email'>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-6 col-sm-offset-2">
+            <a class='btn btn-large btn-primary' id='send' href='#'>Send Verify</a>
+          </div>
+        </div>
+      </form>
+
+      <p>Email Response:</p>
+
+      <div id='email'>
+        <div class="table-responsive">
+          <table class="table table-bordered table-condensed">
+            <tbody>
+              <tr>
+                <th class="col-sm-2">To</th>
+                <td><span id="to"/></td>
+              </tr>
+              <tr>
+                <th>From</th>
+                <td><span id="from"/></td>
+              </tr>
+              <tr>
+                <th>Subject</th>
+                <td><span id="subject"/></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <iframe id='frame' src='email.html'></iframe>
+
+      </div>
+
+      <footer>
+
+      </footer>
+    </div>
+
+
+    <script src='./vendor/jquery/dist/jquery.js'></script>
+    <script src='./vendor/bootstrap/dist/js/bootstrap.js'></script>
+    <script>
+    /* jshint browser: true, maxlen: 120 */
+    /* globals document, $ */
+    $(document).ready(function () {
+      $('#send').click(function () {
+        $.getJSON('/api/Users/trigger', {
+          to : $('#sendTo').val(),
+          from : $('#sendFrom').val(),
+          subject : $('#sendSubject').val()
+        },
+        function (data) {
+          console.log('data', data);
+          $('#from').text((data.result.email.from.name || '') + ' ' + data.result.email.from.address);
+          $('#to').text((data.result.email.to.name || ' ') + ' ' + data.result.email.to.address);
+          $('#subject').text(data.result.email.subject);
+          setTimeout(function () {
+            $('#frame').remove();
+            $('#email').append($('<iframe id=\'frame\' src=\'email.html\'/>'));
+          }, 100);
+        })
+        .done(function() {
+          console.log( 'second success' );
+        })
+        .fail(function(err) {
+          console.log(err.responseText);
+          $('#email').children().remove().text(err.responseText);
+          console.log( 'error' );
+        })
+        .always(function() {
+          console.log( 'complete' );
+        });
+      });
+    });
+    </script>
+  </body>
+</html>

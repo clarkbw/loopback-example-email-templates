@@ -1,0 +1,19 @@
+<body>
+<div class="container">
+
+  <div class="jumbotron">
+    <h1>Hello <%= to.address %></h1>
+    <p>Please verify your email address</p>
+    <p><a class="btn btn-primary btn-lg" role="button" href="<%= verifyHref %>">Verify</a></p>
+  </div>
+
+  <p>
+    Thanks for registering. Please follow the link below to complete your registration.
+  </p>
+
+  <p>
+    <a href="<%= verifyHref %>"><%= verifyHref %></a>
+  </p>
+
+</div>
+</body>
