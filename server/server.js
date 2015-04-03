@@ -3,6 +3,21 @@ var boot = require('loopback-boot');
 
 var app = module.exports = loopback();
 
+// setup default data sources
+loopback.setDefaultDataSourceForType('db', {
+  connector: loopback.Memory
+});
+
+loopback.setDefaultDataSourceForType('mail', {
+  connector: loopback.Mail,
+  transports: [
+    {type: 'STUB'}
+  ]
+});
+
+// auto attach data sources to models
+loopback.autoAttach();
+
 app.start = function() {
   // start the web server
   return app.listen(function() {
