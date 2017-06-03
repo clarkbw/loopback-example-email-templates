@@ -13,11 +13,11 @@
     "less": "^2.4.0",
     "loopback": "git://github.com/clarkbw/loopback#email-templates",
     "loopback-boot": "^2.6.5",
-    "loopback-datasource-juggler": "^2.7.0",
+    "loopback-datasource-juggler": "^3.9.1",
     "serve-favicon": "^2.0.1"
   },
   "optionalDependencies": {
-    "loopback-explorer": "^1.1.0"
+    "loopback-explorer": "^2.0.2"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
