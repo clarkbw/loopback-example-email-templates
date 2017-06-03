@@ -1,5 +1,7 @@
 # loopback-example-email-templates
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/clarkbw/loopback-example-email-templates.svg)](https://greenkeeper.io/)
+
 
 ```
 git clone https://github.com/clarkbw/loopback-example-email-templates.git
